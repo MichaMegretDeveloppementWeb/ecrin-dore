@@ -12,8 +12,7 @@
 
     {{-- Header --}}
     <header
-        class="fixed w-full z-50 bg-brand-cream/90 backdrop-blur-md border-b border-brand-black/5 transition-all duration-300"
-        x-data="{ scrolled: false }" @scroll.window="scrolled = (window.pageYOffset > 20)">
+        class="fixed w-full z-50 bg-brand-cream/90 backdrop-blur-md border-b border-brand-black/5 transition-all duration-300">
         <div class="container mx-auto px-6 h-24 flex items-center justify-between">
             <a href="{{ route('home') }}"
                 class="text-3xl font-serif text-brand-black tracking-widest uppercase hover:text-brand-gold transition-colors duration-300">
@@ -29,14 +28,43 @@
             </nav>
 
             {{-- Mobile Menu Button --}}
-            <button class="md:hidden text-brand-black hover:text-brand-gold transition-colors">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+            <button id="mobile-menu-btn" class="md:hidden text-brand-black hover:text-brand-gold transition-colors" aria-label="Menu" aria-expanded="false">
+                {{-- Hamburger icon --}}
+                <svg id="icon-hamburger" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                     stroke="currentColor" class="w-8 h-8">
                     <path stroke-linecap="round" stroke-linejoin="round"
                         d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
                 </svg>
+                {{-- Close icon (hidden by default) --}}
+                <svg id="icon-close" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                    stroke="currentColor" class="w-8 h-8 hidden">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M6 18L18 6M6 6l12 12" />
+                </svg>
             </button>
         </div>
+
+        {{-- Mobile Menu Panel --}}
+        <nav id="mobile-menu" class="md:hidden hidden border-t border-brand-black/5 bg-brand-cream/95 backdrop-blur-md">
+            <div class="container mx-auto px-6 py-8 flex flex-col space-y-6">
+                <a href="{{ route('home') }}"
+                    class="text-lg font-serif tracking-wider {{ request()->routeIs('home') ? 'text-brand-gold' : 'text-brand-black' }} hover:text-brand-gold transition-colors">
+                    Accueil
+                </a>
+                <a href="{{ route('menu') }}"
+                    class="text-lg font-serif tracking-wider {{ request()->routeIs('menu') ? 'text-brand-gold' : 'text-brand-black' }} hover:text-brand-gold transition-colors">
+                    La Carte
+                </a>
+                <a href="{{ route('reservation') }}"
+                    class="text-lg font-serif tracking-wider {{ request()->routeIs('reservation') ? 'text-brand-gold' : 'text-brand-black' }} hover:text-brand-gold transition-colors">
+                    Réservation
+                </a>
+                <a href="{{ route('contact') }}"
+                    class="text-lg font-serif tracking-wider {{ request()->routeIs('contact') ? 'text-brand-gold' : 'text-brand-black' }} hover:text-brand-gold transition-colors">
+                    Contact
+                </a>
+            </div>
+        </nav>
     </header>
 
     {{-- Main Content --}}

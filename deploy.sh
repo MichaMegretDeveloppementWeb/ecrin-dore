@@ -1,12 +1,17 @@
 #!/bin/bash
 
-# Script de déploiement pour SOSPunaise73
+# Script de déploiement pour L'Écrin Doré (restaurant-luxe)
 # Usage: ./deploy.sh [--skip-maintenance]
 
 set -e  # Arrêter le script en cas d'erreur
 
+# Configuration
+WEB_USER="www-data"  # Adapter selon le serveur (www-data, nginx, apache...)
+WEB_GROUP="www-data"
+BRANCH="main"
+
 echo "============================================"
-echo "  Déploiement  "
+echo "  Déploiement - L'Écrin Doré"
 echo "============================================"
 
 # Option pour skip la maintenance (utile pour debug)
@@ -15,28 +20,25 @@ if [ "$1" == "--skip-maintenance" ]; then
     SKIP_MAINTENANCE=true
 fi
 
-# 1. Activer le mode maintenance (sauf si --skip-maintenance)
+# 1. Activer le mode maintenance
 if [ "$SKIP_MAINTENANCE" = false ]; then
     echo "→ Activation du mode maintenance..."
-    php artisan down --retry=60 || true
+    php artisan down --retry=60
 fi
 
 # 2. Récupérer les dernières modifications depuis le dépôt Git
 echo "→ Mise à jour du dépôt Git..."
 git fetch origin
-git reset --hard origin/main
+git reset --hard origin/$BRANCH
 
-# 3. Installer les dépendances PHP avec composer.phar
+# 3. Installer les dépendances PHP
 echo "→ Installation des dépendances PHP..."
 php composer.phar install --no-dev --optimize-autoloader --no-interaction
 
-# 4. Vider tous les caches Laravel
-echo "→ Nettoyage des caches..."
-php artisan config:clear
-php artisan cache:clear
-php artisan route:clear
-php artisan view:clear
-php artisan event:clear
+# 4. Installer les dépendances Node et compiler les assets
+echo "→ Build des assets front-end (Vite + Tailwind)..."
+npm ci --no-audit --no-fund
+npm run build
 
 # 5. Optimiser les caches pour la production
 echo "→ Optimisation des caches..."
@@ -45,14 +47,13 @@ php artisan route:cache
 php artisan view:cache
 php artisan event:cache
 
-# 6. Exécuter les migrations (si nécessaire)
-# Décommentez cette ligne si vous voulez exécuter les migrations automatiquement
-# echo "→ Exécution des migrations..."
-# php artisan migrate --force
+# 6. Exécuter les migrations
+echo "→ Exécution des migrations..."
+php artisan migrate --force
 
-# 7. Vérifier et corriger les permissions
+# 7. Corriger les permissions
 echo "→ Correction des permissions..."
-chmod -R 755 storage bootstrap/cache
+chown -R $WEB_USER:$WEB_GROUP storage bootstrap/cache
 find storage -type d -exec chmod 755 {} \;
 find storage -type f -exec chmod 644 {} \;
 find bootstrap/cache -type d -exec chmod 755 {} \;

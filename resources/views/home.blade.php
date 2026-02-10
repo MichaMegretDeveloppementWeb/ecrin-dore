@@ -20,11 +20,11 @@
 
             <div class="flex flex-col md:flex-row gap-6 justify-center">
                 <a href="{{ route('reservation') }}"
-                    class="px-10 py-4 bg-brand-black border-1 border-[#654e1c] text-white font-semibold uppercase tracking-wider hover:bg-brand-gold transition-all duration-300 shadow-xl">
+                    class="px-10 py-4 bg-black border-1 border-[#654e1c] text-white font-semibold uppercase tracking-wider hover:bg-brand-gold transition-all duration-300 shadow-xl">
                     Réserver
                 </a>
                 <a href="{{ route('menu') }}"
-                    class="px-10 py-4 text-white font-semibold uppercase tracking-wider hover:bg-brand-black  transition-all duration-300">
+                    class="px-10 py-4 text-white font-semibold uppercase tracking-wider hover:bg-black  transition-all duration-300">
                     Notre Carte
                 </a>
             </div>

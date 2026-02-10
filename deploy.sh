@@ -20,6 +20,15 @@ if [ "$1" == "--skip-maintenance" ]; then
     SKIP_MAINTENANCE=true
 fi
 
+# Garantir que le site revient en ligne même si le script échoue
+cleanup() {
+    if [ "$SKIP_MAINTENANCE" = false ]; then
+        echo "→ Désactivation du mode maintenance..."
+        php artisan up
+    fi
+}
+trap cleanup EXIT
+
 # 1. Activer le mode maintenance
 if [ "$SKIP_MAINTENANCE" = false ]; then
     echo "→ Activation du mode maintenance..."
@@ -58,12 +67,6 @@ find storage -type d -exec chmod 755 {} \;
 find storage -type f -exec chmod 644 {} \;
 find bootstrap/cache -type d -exec chmod 755 {} \;
 find bootstrap/cache -type f -exec chmod 644 {} \;
-
-# 8. Désactiver le mode maintenance
-if [ "$SKIP_MAINTENANCE" = false ]; then
-    echo "→ Désactivation du mode maintenance..."
-    php artisan up
-fi
 
 echo ""
 echo "============================================"

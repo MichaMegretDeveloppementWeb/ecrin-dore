@@ -74,8 +74,6 @@
                             class="bg-brand-black text-white px-12 py-4 font-bold uppercase tracking-widest hover:bg-brand-gold transition-colors duration-300 shadow-lg">
                             Confirmer la demande
                         </button>
-                        <p class="text-center text-xs text-brand-gray mt-6 italic">*Aucune réservation réelle ne sera
-                            effectuée (Démo).</p>
                     </div>
                 </form>
             </div>

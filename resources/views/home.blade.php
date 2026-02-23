@@ -1,12 +1,12 @@
 <x-layout>
     {{-- Hero Section --}}
-    <section class="min-h-screen relative flex items-center justify-center -mt-24">
+    <section class="min-h-[40em] lg:min-h-[50em] relative flex items-center justify-center -mt-24">
         <div class="absolute inset-0 z-0">
              <img src="{{ asset('images/hero-interior.webp') }}" alt="Intérieur luxueux du restaurant L'Écrin Doré" class="w-full h-full object-cover object-left">
             <div class="absolute inset-0 bg-black/60 sticky-pattern"></div>
         </div>
 
-        <div class="relative z-10 text-center p-12 max-w-5xl mx-auto">
+        <div class="relative z-10 text-center p-12 max-w-5xl mx-auto mt-24">
             <div class="inline-block border-y border-brand-black/20 py-2 mb-8 px-6">
                 <h2 class="text-white uppercase tracking-[0.3em] text-sm font-bold">Haute Gastronomie Française
                 </h2>
